@@ -30,16 +30,6 @@ class Uncertain<T> {
         result
     }
 
-    static <T> Uncertain<T> failure(Exception exception) {
-        if (exception == null) throw new IllegalArgumentException("Exception can't be null")
-
-        Uncertain<T> result = new Uncertain<T>(true)
-        result.instance = null
-        result.errors = [(exception.class.simpleName):exception.message]
-
-        result
-    }
-
     // Tests instance strictly against null
     static <T> Uncertain<T> testNull(T instance, Map errors) {
         if(instance == null) failure(errors)

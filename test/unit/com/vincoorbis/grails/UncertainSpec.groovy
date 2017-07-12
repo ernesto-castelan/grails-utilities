@@ -30,22 +30,12 @@ class UncertainSpec extends Specification {
             thrown IllegalArgumentException
     }
 
-    void "'failure(map)' method creates an unsuccesfull instance"() {
+    void "'failure' method creates an unsuccesfull instance"() {
         when:"Using the failure method"
             Uncertain<String> result = Uncertain.failure([property:"error.code"])
         then:"The instance is correct"
             result.instance == null
             result.errors == [property:"error.code"]
-    }
-
-    void "'failure(exception)' method creates an unsuccesfull instance"() {
-        given:"An exception"
-            Exception exceptionInstance = new IllegalStateException("message")
-        when:"Using the failure method"
-            Uncertain<String> result = Uncertain.failure(exceptionInstance)
-        then:"The instance is correct"
-            result.instance == null
-            result.errors == [IllegalStateException:"message"]
     }
 
     void "'failure' method with null parameter raises an exception"() {
