@@ -11,16 +11,16 @@ class UncertainSpec extends Specification {
         when:"Using the success method"
             Uncertain<String> result = Uncertain.success("hello")
         then:"The instance is correct"
-            result.instance == "hello"
-            result.errors == null
+            result.@instance == "hello"
+            result.@errors == null
     }
 
     void "'success' method with falsy param creates a succesfull instance"() {
         when:"Using the success method"
             Uncertain<String> result = Uncertain.success("")
         then:"The instance is correct"
-            result.instance == ""
-            result.errors == null
+            result.@instance == ""
+            result.@errors == null
     }
 
     void "'success' method with null parameter raises an exception"() {
@@ -34,8 +34,8 @@ class UncertainSpec extends Specification {
         when:"Using the failure method"
             Uncertain<String> result = Uncertain.failure([property:"error.code"])
         then:"The instance is correct"
-            result.instance == null
-            result.errors == [property:"error.code"]
+            result.@instance == null
+            result.@errors == [property:"error.code"]
     }
 
     void "'failure' method with null parameter raises an exception"() {
@@ -49,8 +49,8 @@ class UncertainSpec extends Specification {
         when:"Using the testNull method"
             Uncertain<String> result = Uncertain.testNull(value, [property:"error.code"])
         then:"The instance is correct"
-            result.instance == expectedInstance
-            result.errors == expectedErrors
+            result.@instance == expectedInstance
+            result.@errors == expectedErrors
         where:
             value       ||expectedInstance  |expectedErrors
             "hello"     ||"hello"            |null
@@ -69,8 +69,8 @@ class UncertainSpec extends Specification {
         when:"Using the testTruth method"
             Uncertain<String> result = Uncertain.testTruth(value, [property:"error.code"])
         then:"The instance is correct"
-            result.instance == expectedInstance
-            result.errors == expectedErrors
+            result.@instance == expectedInstance
+            result.@errors == expectedErrors
         where:
             value       ||expectedInstance  |expectedErrors
             "hello"     ||"hello"            |null
@@ -107,5 +107,23 @@ class UncertainSpec extends Specification {
             "hello"     ||false
             ""          ||true
             null        ||true
+    }
+
+    void "'instance' getter with null instance raises an exception"() {
+        given:"An Uncertain instance"
+            Uncertain<String> result = Uncertain.failure([property:"error.code"])
+        when:"Accessing the instance property"
+            result.instance
+        then:"An exception is raised"
+            thrown NullPointerException
+    }
+
+    void "'errors' getter with null error map raises an exception"() {
+        given:"An Uncertain instance"
+            Uncertain<String> result = Uncertain.success("hello")
+        when:"Accessing the instance property"
+            result.errors
+        then:"An exception is raised"
+            thrown NullPointerException
     }
 }

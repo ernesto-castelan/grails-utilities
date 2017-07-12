@@ -43,10 +43,12 @@ class Uncertain<T> {
     }
 
     T getInstance() {
+        if(instance == null) throw new NullPointerException("Can't access a null instance")
         instance
     }
 
     Map getErrors() {
+        if(errors == null) throw new NullPointerException("Can't access a null error map")
         errors
     }
 
